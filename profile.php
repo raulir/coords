@@ -185,8 +185,14 @@ setTimeout(init_save, 1000);
 // autocomplete
 function init_autocomplete(){
 
-	$profile_search_input.on('keyup change', function(e){
+	$profile_search_input.on('keyup', function(e){
 		run_search(e)
+	});
+
+	$profile_search_autocomplete.on('click', '.profile_search_result', function(){
+		var id = $(this).data('id');
+		$profile_search_autocomplete.html('');
+		show_location(id);
 	});
 
 }
