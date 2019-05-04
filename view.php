@@ -1,5 +1,9 @@
 <?php
 
+if (!file_exists('cache')){
+	mkdir('cache');
+}
+
 $do = !empty($_POST['do']) ? $_POST['do'] : '';
 
 if ($do == 'view_search'){
@@ -47,6 +51,9 @@ if ($do == 'view_search'){
 			unset($data[$key]);
 		} else {
 			$data[$key]['dist'] = round(dist($lat, $lng, $value['lat'], $value['lng']), 1);
+			if (empty($data[$key]['id'])){
+				$data[$key]['id'] = substr(md5($value['lat'] . $value['lng'] . $value['info']), 0, 10);
+			}
 		}
 	}
 	
@@ -95,7 +102,7 @@ if ($do == 'view_search'){
 		border-top: 1px dotted grey;
 	}
 	
-	.view_locate_button {
+	.view_all_button {
 		cursor: pointer;
 	}
 	
@@ -115,7 +122,7 @@ if ($do == 'view_search'){
 	</div>
 		
 	<div class="view_tools">
-		<!-- div class="view_locate_button">[locate]</div -->
+		<div class="view_all_button">[all]</div>
 		<input class="view_search_input" type="text"><div class="view_search_button">[search]</div>
 		<div class="view_results"></div>
 	</div>
@@ -129,6 +136,8 @@ if ($do == 'view_search'){
 <script type="text/javascript">
 
 var $view_results = $('.view_results');
+
+var g_markers = {};
 
 function init_map(){
 	
@@ -151,7 +160,7 @@ function init_map(){
         // draggable: true,
     	position: coords,
     	map: g_map,
-    	icon: 'https://img.icons8.com/color/48/000000/marker.png', // https://img.icons8.com/material-rounded/48/000000/marker.png
+    	icon: 'https://img.icons8.com/color/48/000000/marker.png', // 
     	draggable: true
     });
 
@@ -175,6 +184,8 @@ function init_search(){
 	$('.view_search_button').on('click', function(){
         show_results(g_marker.getPosition().lat(), g_marker.getPosition().lng(), $('.view_search_input').val());
 	});
+
+	$('.view_all_button').on('click', reset_map);
 	
 }
 
@@ -194,14 +205,69 @@ function show_results(lat, lng, search){
 	  	success: function(data){
 
 	  		$view_results.html('');
-			$(data).each(function(){
-				$view_results.append('<div class="view_result"><div class="view_result_info">' + this.info + '</div>' +
-						'<div class="view_result_dist">' + this.dist.toFixed(1) + 'km</div></div>');
+
+			$.each(g_markers, function(){
+				this.setVisible(false);
 			});
-		  	
+			
+			$(data).each(function(){
+
+				// div
+				$view_results.append('<div class="view_result" data-id="' + this.id + '"><div class="view_result_info">' + this.info + '</div>' +
+						'<div class="view_result_dist">' + this.dist.toFixed(1) + 'km</div></div>');
+
+				// markers
+				
+				if (typeof g_markers[this.id] == 'undefined' ){
+	                g_markers[this.id] = new google.maps.Marker({
+	                    position: new google.maps.LatLng(this.lat, this.lng),
+	                    icon: 'https://img.icons8.com/material-rounded/48/000000/marker.png',
+	                    map: g_map
+	                });
+				} else {
+					g_markers[this.id].setVisible(true);
+				}
+				
+			});
+
+			reset_map();
+
 		}
 	});
 
+}
+
+function reset_map(){
+
+	var bounds = {
+        'north': g_marker.getPosition().lat(),
+        'south': g_marker.getPosition().lat(),
+        'east': g_marker.getPosition().lng(),
+        'west': g_marker.getPosition().lng()
+    };
+
+	$.each(g_markers, function(){
+
+		if (!this.getVisible()){
+			return;
+		}
+		
+        if (this.getPosition().lat() > bounds.north) {
+            bounds.north = this.getPosition().lat();
+        }
+        if (this.getPosition().lat() < bounds.south) {
+            bounds.south = this.getPosition().lat();
+        }
+        if (this.getPosition().lng() > bounds.east) {
+            bounds.east = this.getPosition().lng();
+        }
+        if (this.getPosition().lng() < bounds.west) {
+            bounds.west = this.getPosition().lng();
+        }
+	});
+
+	g_map.fitBounds(bounds);
+	
 }
 
 </script>

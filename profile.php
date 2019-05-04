@@ -74,6 +74,7 @@ if ($do == 'place_autocomplete'){
 	}
 	
 	$data[] = [
+			'id' => substr(md5($_POST['lat'] . $_POST['lng'] . $_POST['info']), 0, 10),
 			'lng' => $_POST['lng'],
 			'lat' => $_POST['lat'],
 			'info' => $_POST['info'],
