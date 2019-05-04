@@ -74,7 +74,7 @@ if ($do == 'place_autocomplete'){
 	}
 	
 	$data[] = [
-			'long' => $_POST['long'],
+			'lng' => $_POST['lng'],
 			'lat' => $_POST['lat'],
 			'info' => $_POST['info'],
 			'added' => date('Y-m-d H:i:s'),
@@ -150,9 +150,9 @@ if ($do == 'place_autocomplete'){
 	<img class="profile_map_pin_drag" src="https://img.icons8.com/color/48/000000/marker.png">
 		
 	<div class="profile_coordinates">
-		<div class="profile_coordinates_long">
-			long:
-			<input class="profile_coordinates_long" type="text" readonly="readonly">
+		<div class="profile_coordinates_lng">
+			lng:
+			<input class="profile_coordinates_lng" type="text" readonly="readonly">
 			lat:
 			<input class="profile_coordinates_lat" type="text" readonly="readonly">
 		</div>
@@ -251,7 +251,7 @@ function init_map(){
         });
     	
     	var position = g_map.getCenter();
-    	$('.profile_coordinates_long').val(position.lng().toFixed(4));
+    	$('.profile_coordinates_lng').val(position.lng().toFixed(4));
     	$('.profile_coordinates_lat').val(position.lat().toFixed(4));
 
     });
@@ -385,7 +385,7 @@ function save_data(){
 	  	dataType: 'json',
 	  	data: {
 		  	'do': 'save_data',
-		  	'long': $('.profile_coordinates_long').val(),
+		  	'lng': $('.profile_coordinates_lng').val(),
 		  	'lat': $('.profile_coordinates_lat').val(),
 		  	'info': $('.profile_info_input').val()
 		},
