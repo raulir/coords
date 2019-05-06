@@ -24,7 +24,7 @@ if ($do == 'place_autocomplete'){
 	
 	$data = file_get_contents('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' .
 			urlencode($_POST['location']) . '&components=country:' . urlencode($_POST['country']) . '&language=' . urlencode($_POST['language']) . 
-			'&key=AIzaSyAycRIejSHGMWJ43a3yQzPBubZ7NjyEn44');
+			'&key=AIzaSyA7IYlaWQk3iI9pPM6szPid6WmH0H4L4Tc');
 	
 	$data = json_decode($data, true);
 	
@@ -49,7 +49,7 @@ if ($do == 'place_autocomplete'){
 		die();
 	}
 
-	$data = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?place_id='.urlencode($_POST['place_id']).'&key=AIzaSyAycRIejSHGMWJ43a3yQzPBubZ7NjyEn44');
+	$data = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?place_id='.urlencode($_POST['place_id']).'&key=AIzaSyA7IYlaWQk3iI9pPM6szPid6WmH0H4L4Tc');
 
 	$data = json_decode($data, true);
 
@@ -171,7 +171,7 @@ if ($do == 'place_autocomplete'){
 <!-- javascript -->
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script async defer src="https://maps.google.com/maps/api/js?key=AIzaSyAycRIejSHGMWJ43a3yQzPBubZ7NjyEn44&callback=init_map"></script>
+<script async defer src="https://maps.google.com/maps/api/js?key=AIzaSyA7IYlaWQk3iI9pPM6szPid6WmH0H4L4Tc&callback=init_map"></script>
 <script type="text/javascript">
 
 var country = 'ee';

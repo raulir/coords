@@ -143,7 +143,7 @@ if ($do == 'view_search'){
 <!-- javascript -->
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script async defer src="https://maps.google.com/maps/api/js?key=AIzaSyAycRIejSHGMWJ43a3yQzPBubZ7NjyEn44&callback=init_map"></script>
+<script async defer src="https://maps.google.com/maps/api/js?key=AIzaSyA7IYlaWQk3iI9pPM6szPid6WmH0H4L4Tc&callback=init_map"></script>
 <script type="text/javascript">
 
 var $view_results = $('.view_results');
