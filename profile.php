@@ -122,7 +122,8 @@ if ($do == 'place_autocomplete'){
 	.profile_map_pin_drag {
 		position: absolute;
 		z-index: 10;
-		opacity: 0;
+		opacity: 0.3;
+		display: none;
 	}
 	
 	.profile_info_input {
@@ -221,6 +222,12 @@ function init_map(){
         $('.profile_map').get(0), mapOptions
     );
 
+	g_marker = new google.maps.Marker({
+    	position: coords,
+    	map: g_map,
+    	icon: 'https://img.icons8.com/color/48/000000/marker.png'
+    });
+
 	$('.profile_map_pin_drag').appendTo('.profile_map');
 	google.maps.event.trigger(g_map, 'idle');
 
@@ -228,30 +235,32 @@ function init_map(){
     	
     	// put temporary marker
     	$('.profile_map_pin_drag').css({
-    		'opacity': '0.3'
+   			'bottom': $('.profile_map').height() / 2 + 'px',
+    		'left': ($('.profile_map').width() - $('.profile_map_pin_drag').width())/2 + 'px',
+    		'display': 'inline-block'
     	});
+
+    	g_marker.setVisible(false);
     	
     });
     
     google.maps.event.addListener(g_map, 'dragend', function() {
 
-    	// sometimes this won't call itself
-    	setTimeout(function(){
-    		google.maps.event.trigger(g_map, 'idle')
-    	}, 100);
-
     });
     	
     google.maps.event.addListener(g_map, 'idle', function() {
     	
+        // show real marker
+        var position = g_map.getCenter();
+    	g_marker.setPosition(position);
+        g_marker.setVisible(true);
+
    		// hide temporary marker
    		$('.profile_map_pin_drag').css({
-   			'bottom': $('.profile_map').height() / 2 + 'px',
-    		'left': ($('.profile_map').width() - $('.profile_map_pin_drag').width())/2 + 'px',
-    		'opacity': '1'
+    		'display': ''
         });
-    	
-    	var position = g_map.getCenter();
+
+   		// save data to inputs
     	$('.profile_coordinates_lng').val(position.lng().toFixed(4));
     	$('.profile_coordinates_lat').val(position.lat().toFixed(4));
 
