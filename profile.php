@@ -174,8 +174,8 @@ if ($do == 'place_autocomplete'){
 <script async defer src="https://maps.google.com/maps/api/js?key=AIzaSyA7IYlaWQk3iI9pPM6szPid6WmH0H4L4Tc&callback=init_map"></script>
 <script type="text/javascript">
 
-var country = 'ee';
-var language = 'et';
+var country = 'gb';
+var language = 'en';
 
 var $profile_search_input = $('.profile_search_input');
 var $profile_search_autocomplete = $('.profile_search_autocomplete');
@@ -208,7 +208,7 @@ function init_save(){
 function init_map(){
 	
 	// google maps stuff
-    var coords = new google.maps.LatLng(59.44, 24.75);
+    var coords = new google.maps.LatLng(51.5008, -0.1246);
 	
     var mapOptions = {
         zoom: 17,

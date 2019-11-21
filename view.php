@@ -154,7 +154,7 @@ var c_markers = {}; // for ids
 function init_map(){
 	
 	// google maps stuff
-    var coords = new google.maps.LatLng(58.92, 25.62);
+    var coords = new google.maps.LatLng(51.5257, -0.0875);
 	
     var mapOptions = {
         zoom: 12,
